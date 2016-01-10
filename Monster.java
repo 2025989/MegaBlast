@@ -17,7 +17,8 @@ public class Monster extends MoveLeft
             setImage("monsterLeft.png");
         }
     
-        if(getOneObjectAtOffset(0, 0, Chip.class) != null)
+        if(getOneObjectAtOffset(0, 0, Chip.class) != null
+        && !(Greenfoot.isKeyDown("/")))
         {
             Chip.hp --;
         }

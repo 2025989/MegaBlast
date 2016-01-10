@@ -13,6 +13,8 @@ public class Level extends DrawImage {
     public static int waveCount;
     
     public Level() {
+        waveCount = 1;
+        drawText();
         waveCount = 0;
         setImage(image);
     }

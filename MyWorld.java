@@ -34,6 +34,12 @@ public class MyWorld extends World {
                 addObject(new Monster(), getWidth()+250+Greenfoot.getRandomNumber(1000), getHeight()-120);
             }
         }
+        if (MoveLeft.worldX > 90000 && Level.waveCount == 9) {
+            Level.waveCount++;
+            addObject(new Boss(), 50, getHeight()-130);
+            addObject(new BossHealthBar(), getWidth()/2, 25);
+            Chip.bosswave = true;
+        }
     }
     
     public void started() {
@@ -47,16 +53,13 @@ public class MyWorld extends World {
         addObject(new NewGame(), getWidth()/2, getHeight()/2);
         addObject(new Level(), 150, 50);
         addObject(new HealthBar(), 150, getHeight()-35);
-        //addObject(new BossHealthBar(), getWidth()/2, 25);
         
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 50; i++) {
             addObject(new Background(), 1158+2316*i, getHeight()/2);
             addObject(new Ground(), 639+1277*i, getHeight()-32);
         }
         
         addObject(new Chip(), getWidth()/2, getHeight()-112);
-        
-        //addObject(new Boss(), 50, getHeight()-130);
         
         setPaintOrder(
             NewGame.class, Level.class, HealthBar.class, BossHealthBar.class,

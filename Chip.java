@@ -18,18 +18,19 @@ public class Chip extends Actor {
     private int shotTimer = 0;
     private int jumpTimer = 0;
     private int jumpCounter = 0;
-    private int speed = 5;
     private int vspeed = 0;
     private int hspeed = 0;
     private int acceleration = 1;
     
+    public static int speed;
     public boolean isGameOver = false;
     public boolean isDead = false;
     public boolean isLeft = false;
     public static boolean bosswave;
     public static int hp;
     public Chip() {
-        bosswave = true;
+        speed = 5;
+        bosswave = false;
         hp = 100;
         setImage(right);
         noImg.clear();
@@ -40,14 +41,15 @@ public class Chip extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        if (Greenfoot.isKeyDown("Q")) {speed = 100;}
         if (!isGameOver) {
-            if(hp < 0) {
+            if (hp < 0) {
                 hp = 0;
                 isDead = true;
                 isGameOver = true;
             }
             die();
-            if(hp > 0) { movement();}
+            if (hp > 0) {movement();}
             //checkHealth();
             attack();
         }
@@ -95,25 +97,21 @@ public class Chip extends Actor {
     //die
     protected void die() {
         if (hp == 0) {
-                getImage().clear();
+            getImage().clear();
         }
     }
     //duck
     protected void duck() {
-        if(hp > 0) {
-            if (Greenfoot.isKeyDown("left") || getImage() == left) {setImage(duckLeft);}
-            if (Greenfoot.isKeyDown("right") || getImage() == right) {setImage(duckRight);}
-        }
+        if (Greenfoot.isKeyDown("left") || getImage() == left) {setImage(duckLeft);}
+        if (Greenfoot.isKeyDown("right") || getImage() == right) {setImage(duckRight);}
     }
     
     //walk
     protected void walk() {
-        if(hp > 0) {
-            if (Greenfoot.isKeyDown("left")) {setImage(left);}
-            if (Greenfoot.isKeyDown("right")) {setImage(right);}
-            if (Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("right")) {
-                moveHorizontally();
-            }
+        if (Greenfoot.isKeyDown("left")) {setImage(left);}
+        if (Greenfoot.isKeyDown("right")) {setImage(right);}
+        if (Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("right")) {
+            moveHorizontally();
         }
     }
     
@@ -148,15 +146,20 @@ public class Chip extends Actor {
     
     protected void moveHorizontally() {
         if (!(Greenfoot.isKeyDown("left") && Greenfoot.isKeyDown("right"))) {
-            //if (atWorldEdge()) {move(-speed);}
             move(speed);
             //hspeed += acceleration;
-            if (Greenfoot.isKeyDown("left")) {isLeft = true;}
-            if (Greenfoot.isKeyDown("right")) {isLeft = false;}
-            if (getX() > 700) {setLocation(getX()-speed, getY());}
+            if (Greenfoot.isKeyDown("left")) {
+                isLeft = true;
+            }
+            if (Greenfoot.isKeyDown("right")) {
+                isLeft = false;
+            }
+            if ((getX() > 700 && bosswave == false)
+            || getX() > getWorld().getWidth()-getImage().getWidth()/2) {setLocation(getX()-speed, getY());}
             if ((getX() < 200 && MoveLeft.worldX > 0)
             || getX() < getImage().getWidth()/2) {setLocation(getX()+speed, getY());}
         }
+        speed = 5;
     }
     //************************************************************//
     

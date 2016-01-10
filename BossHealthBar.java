@@ -10,10 +10,10 @@ public class BossHealthBar extends DrawImage {
     
     private GreenfootImage image = new GreenfootImage(529, 31);
     public void act() {
-        drawGameOverWindow();
+        draw();
     } 
     
-    public void drawGameOverWindow() {
+    public void draw() {
         image.clear();
         //set image background
         if (Boss.bosshp < 0) {

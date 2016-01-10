@@ -17,16 +17,18 @@ public class MoveLeft extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void moveLeft() {
-        if(Greenfoot.isKeyDown("right")
-        && getWorld().getObjects(Chip.class).get(0).getX() >= 700) {
-            worldX += 1;
-            move(-5);
-        }
-        if(Greenfoot.isKeyDown("left")
-        && getWorld().getObjects(Chip.class).get(0).getX() <= 200
-        && worldX > 0) {
-            worldX -= 1;
-            move(5);
+        if (!Chip.bosswave) {
+            if(Greenfoot.isKeyDown("right")
+            && getWorld().getObjects(Chip.class).get(0).getX() >= 700) {
+                worldX += Chip.speed/5;
+                move(-Chip.speed);
+            }
+            if(Greenfoot.isKeyDown("left")
+            && getWorld().getObjects(Chip.class).get(0).getX() <= 200
+            && worldX > 0) {
+                worldX -= Chip.speed/5;
+                move(Chip.speed);
+            }
         }
     }
     

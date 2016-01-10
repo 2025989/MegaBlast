@@ -9,11 +9,17 @@ import java.awt.*;
 public class HealthBar extends DrawImage {
     
     private GreenfootImage image = new GreenfootImage(129, 22);
-    public void act() {
-        drawGameOverWindow();
+    
+    public HealthBar() {
+        setImage(image);
+        draw();
     }
     
-    public void drawGameOverWindow() {
+    public void act() {
+        draw();
+    }
+    
+    public void draw() {
         image.clear();
         //set image background
         if (Chip.hp < 0) {
