@@ -9,7 +9,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyWorld extends World {
     
     //private GreenfootSound music = new GreenfootSound(null);
-    public static int waveCount = 0;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -21,17 +20,17 @@ public class MyWorld extends World {
     }
     
     public void act() {
-        if ((waveCount == 0)
-        || (MoveLeft.worldX > 10000 && waveCount == 1)
-        || (MoveLeft.worldX > 20000 && waveCount == 2)
-        || (MoveLeft.worldX > 30000 && waveCount == 3)
-        || (MoveLeft.worldX > 40000 && waveCount == 4)
-        || (MoveLeft.worldX > 50000 && waveCount == 5)
-        || (MoveLeft.worldX > 60000 && waveCount == 6)
-        || (MoveLeft.worldX > 70000 && waveCount == 7)
-        || (MoveLeft.worldX > 80000 && waveCount == 8)) {
-            waveCount++;
-            for (int i = 0; i < 4*waveCount; i++) {
+        if ((Level.waveCount == 0)
+        || (MoveLeft.worldX > 10000 && Level.waveCount == 1)
+        || (MoveLeft.worldX > 20000 && Level.waveCount == 2)
+        || (MoveLeft.worldX > 30000 && Level.waveCount == 3)
+        || (MoveLeft.worldX > 40000 && Level.waveCount == 4)
+        || (MoveLeft.worldX > 50000 && Level.waveCount == 5)
+        || (MoveLeft.worldX > 60000 && Level.waveCount == 6)
+        || (MoveLeft.worldX > 70000 && Level.waveCount == 7)
+        || (MoveLeft.worldX > 80000 && Level.waveCount == 8)) {
+            Level.waveCount++;
+            for (int i = 0; i < 4*Level.waveCount; i++) {
                 addObject(new Monster(), getWidth()+250+Greenfoot.getRandomNumber(1000), getHeight()-120);
             }
         }

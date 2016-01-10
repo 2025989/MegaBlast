@@ -10,8 +10,10 @@ import java.awt.*;
 public class Level extends DrawImage {
     
     private GreenfootImage image = new GreenfootImage(1, 1);
+    public static int waveCount;
     
     public Level() {
+        waveCount = 0;
         setImage(image);
     }
     
@@ -26,7 +28,7 @@ public class Level extends DrawImage {
     public void drawText() {
         //set image dimensions
         image.setFont(new Font("Arial", Font.BOLD, 48));
-        String text = "Level "+ MyWorld.waveCount;//(int)(MoveLeft.worldX/10000+1);
+        String text = "Level "+ waveCount;//(int)(MoveLeft.worldX/10000+1);
         Dimension dim = getTextDimensions(image, text);
         
         //draw string into image
