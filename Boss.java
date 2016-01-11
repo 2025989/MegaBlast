@@ -25,6 +25,8 @@ public class Boss extends MoveLeft {
     }
     
     public void act() {
+        if (Chip.bosswave == false) {getWorld().addObject(new BossHealthBar(), getWorld().getWidth()/2, 25);}
+        Chip.bosswave = true;
         moveLeft();
         attack();
         death();

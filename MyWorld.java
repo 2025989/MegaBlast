@@ -37,8 +37,6 @@ public class MyWorld extends World {
         if (MoveLeft.worldX > 90000 && Level.waveCount == 9) {
             Level.waveCount++;
             addObject(new Boss(), 50, getHeight()-130);
-            addObject(new BossHealthBar(), getWidth()/2, 25);
-            Chip.bosswave = true;
         }
     }
     
