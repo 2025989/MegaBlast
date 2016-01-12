@@ -7,12 +7,12 @@ import java.awt.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Level extends DrawImage {
+public class TEST extends DrawImage {
     
     private GreenfootImage image = new GreenfootImage(1, 1);
     public static int waveCount;
     
-    public Level() {
+    public TEST() {
         waveCount = 1;
         drawText();
         waveCount = 0;
@@ -30,7 +30,7 @@ public class Level extends DrawImage {
     public void drawText() {
         //set image dimensions
         image.setFont(new Font("Arial", Font.BOLD, 48));
-        String text = "Level "+ waveCount;
+        String text = ""+MoveLeft.worldX;
         Dimension dim = getTextDimensions(image, text);
         
         //draw string into image

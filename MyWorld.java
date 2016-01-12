@@ -20,15 +20,16 @@ public class MyWorld extends World {
     }
     
     public void act() {
-        if ((Level.waveCount == 0)
-        || (MoveLeft.worldX > 10000 && Level.waveCount == 1)
-        || (MoveLeft.worldX > 20000 && Level.waveCount == 2)
-        || (MoveLeft.worldX > 30000 && Level.waveCount == 3)
-        || (MoveLeft.worldX > 40000 && Level.waveCount == 4)
-        || (MoveLeft.worldX > 50000 && Level.waveCount == 5)
-        || (MoveLeft.worldX > 60000 && Level.waveCount == 6)
-        || (MoveLeft.worldX > 70000 && Level.waveCount == 7)
-        || (MoveLeft.worldX > 80000 && Level.waveCount == 8)) {
+        if (Level.waveCount == 0
+        || (MoveLeft.worldX > 10000*Level.waveCount
+        && (Level.waveCount == 1
+        || Level.waveCount == 2
+        || Level.waveCount == 3
+        || Level.waveCount == 4
+        || Level.waveCount == 5
+        || Level.waveCount == 6
+        || Level.waveCount == 7
+        || Level.waveCount == 8))) {
             Level.waveCount++;
             for (int i = 0; i < 4*Level.waveCount; i++) {
                 addObject(new Monster(), getWidth()+250+Greenfoot.getRandomNumber(1000), getHeight()-120);
@@ -51,8 +52,8 @@ public class MyWorld extends World {
         addObject(new NewGame(), getWidth()/2, getHeight()/2);
         addObject(new Level(), 150, 50);
         addObject(new HealthBar(), 150, getHeight()-35);
-        
-        for (int i = 0; i < 50; i++) {
+        //addObject(new TEST(), 150, 100);
+        for (int i = -3; i < 50; i++) {
             addObject(new Background(), 1158+2316*i, getHeight()/2);
             addObject(new Ground(), 639+1277*i, getHeight()-32);
         }
@@ -60,7 +61,7 @@ public class MyWorld extends World {
         addObject(new Chip(), getWidth()/2, getHeight()-112);
         
         setPaintOrder(
-            NewGame.class, Level.class, HealthBar.class, BossHealthBar.class,
+            NewGame.class, Level.class, HealthBar.class, BossHealthBar.class, TEST.class,
             Explosion.class, Chip.class, Monster.class, Boss.class,
             Ground.class, Shot.class,
             Background.class

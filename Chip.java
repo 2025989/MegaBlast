@@ -21,6 +21,7 @@ public class Chip extends Actor {
     private int vspeed = 0;
     private int hspeed = 0;
     private int acceleration = 1;
+    private int cooldown = 20;
     
     public static int speed;
     public boolean isGameOver = false;
@@ -34,6 +35,7 @@ public class Chip extends Actor {
         hp = 100;
         setImage(right);
         noImg.clear();
+        MoveLeft.worldX = 0;
     }
     
     /**
@@ -41,6 +43,7 @@ public class Chip extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        if (Greenfoot.isKeyDown("/")) {cooldown = 1;}
         if (Greenfoot.isKeyDown("Q")) {speed = 100;}
         if (!isGameOver) {
             if (hp < 0) {
@@ -156,7 +159,7 @@ public class Chip extends Actor {
             }
             if ((getX() > 700 && bosswave == false)
             || getX() > getWorld().getWidth()-getImage().getWidth()/2) {setLocation(getX()-speed, getY());}
-            if ((getX() < 200 && MoveLeft.worldX > 0)
+            if ((getX() < 200 && MoveLeft.worldX > 0 && bosswave == false)
             || getX() < getImage().getWidth()/2) {setLocation(getX()+speed, getY());}
         }
         speed = 5;
@@ -178,12 +181,13 @@ public class Chip extends Actor {
     
     public void attack() {
         if (Greenfoot.isKeyDown("F")) {
-            if (shotTimer%20 == 0) {
+            if (shotTimer%cooldown == 0) {
                 getWorld().addObject(new Shot(isLeft), getX(), getY());
             }
             shotTimer++;
         }
         else {shotTimer = 0;}
+        cooldown = 20;
     }
 
 }
