@@ -40,6 +40,7 @@ public class Fireball extends MoveLeft
        
        if(chip != null) {
            Chip.hp -= 5;
+           getWorld().removeObject(this);
     }
     }
    

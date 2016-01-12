@@ -51,6 +51,7 @@ public class Boss extends MoveLeft {
             gTimer = gTimer + 1;   //als de boss dood is telt hij er elkekeer 1 bij op
             setImage(bosskill);
             if(gTimer > 22) {   //na 22 komt er een explosie
+                Chip.bosswave = false;
                 getWorld().addObject(new Explosion(), getX(), getY());
                 getWorld().removeObject(this);   
             }
@@ -73,10 +74,10 @@ public class Boss extends MoveLeft {
                         setImage(bosskill);
             inAttack = true;  
             invulnerable = true;
-            getWorld().addObject(new Monster(), getX()+75, getY());
-            getWorld().addObject(new Monster(), getX()+145, getY());
-            getWorld().addObject(new Monster(), getX()+200, getY());
-            getWorld().addObject(new Monster(), getX()+500, getY()); 
+            getWorld().addObject(new Monster(), Chip.chipX-100-Greenfoot.getRandomNumber(300), getY()+10);
+            getWorld().addObject(new Monster(), Chip.chipX-100-Greenfoot.getRandomNumber(300), getY()+10);
+            getWorld().addObject(new Monster(), Chip.chipX+100+Greenfoot.getRandomNumber(300), getY()+10);
+            getWorld().addObject(new Monster(), Chip.chipX+100+Greenfoot.getRandomNumber(300), getY()+10);
             
         } 
         if(Greenfoot.getRandomNumber(250) == 25 && inAttack == false) {  //hij valt random aan

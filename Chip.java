@@ -29,6 +29,7 @@ public class Chip extends Actor {
     public boolean isLeft = false;
     public static boolean bosswave;
     public static int hp;
+    public static int chipX;
     public Chip() {
         speed = 5;
         bosswave = false;
@@ -43,6 +44,7 @@ public class Chip extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        chipX = getX();
         if (Greenfoot.isKeyDown("/")) {cooldown = 1;}
         if (Greenfoot.isKeyDown("Q")) {speed = 100;}
         if (!isGameOver) {
