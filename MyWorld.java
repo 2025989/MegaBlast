@@ -53,6 +53,7 @@ public class MyWorld extends World {
         addObject(new Level(), 150, 50);
         addObject(new HealthBar(), 150, getHeight()-35);
         //addObject(new TEST(), 150, 100);
+        addObject(new Boss(), 50, getHeight()-130);
         for (int i = -3; i < 50; i++) {
             addObject(new Background(), 1158+2316*i, getHeight()/2);
             addObject(new Ground(), 639+1277*i, getHeight()-32);
@@ -63,7 +64,7 @@ public class MyWorld extends World {
         setPaintOrder(
             NewGame.class, Level.class, HealthBar.class, BossHealthBar.class, TEST.class,
             Explosion.class, Chip.class, Monster.class, Boss.class,
-            Ground.class, Shot.class,
+            Ground.class, Shot.class, Fireball.class,
             Background.class
         );
     }
