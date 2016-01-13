@@ -21,7 +21,7 @@ public class MyWorld extends World {
     
     public void act() {
         if (Level.waveCount == 0
-        || (MoveLeft.worldX > 10000*Level.waveCount
+        || (MoveLeft.worldX > 20000*Level.waveCount
         && (Level.waveCount == 1
         || Level.waveCount == 2
         || Level.waveCount == 3
@@ -64,7 +64,7 @@ public class MyWorld extends World {
         setPaintOrder(
             NewGame.class, Level.class, HealthBar.class, BossHealthBar.class, TEST.class,
             Explosion.class, Chip.class, Monster.class, Boss.class,
-            Ground.class, Shot.class, Fireball.class,
+            Ground.class, Shot.class, Fireball.class, Shockwave.class,
             Background.class
         );
     }

@@ -14,6 +14,7 @@ public class Shot extends MoveLeft {
     
     public Shot(boolean isLeft) {
         if (isLeft) {
+            getImage().mirrorHorizontally();
             speed = -10;
         }
     }
@@ -25,20 +26,10 @@ public class Shot extends MoveLeft {
     }
     
     public void checkHit() {
-        Actor monster = getOneObjectAtOffset(0,0, Monster.class);
         Actor boss = getOneObjectAtOffset(0,0, Boss.class);
         if(boss!=null && Boss.invulnerable == false && Boss.bosshp > 0) {
             Boss.bosshp -= 10;
             getWorld().removeObject(this);  
-        }
-        else if(Boss.invulnerable == true && monster != null) {
-            killcount++;
-            getWorld().removeObject(monster);  
-            getWorld().removeObject(this);
-        }
-        else if(Boss.invulnerable == false && monster != null) {
-            getWorld().removeObject(monster);  
-            getWorld().removeObject(this);
         }
         else if (getX() > 2000) {getWorld().removeObject(this);}
         if (killcount >= 4) {
