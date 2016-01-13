@@ -16,6 +16,9 @@ public class Chip extends Actor {
     private GreenfootImage duckRight = new GreenfootImage("DuckRight.png");
     private GreenfootImage jumpLeft = new GreenfootImage("JumpLeft.png");
     private GreenfootImage jumpRight = new GreenfootImage("JumpRight.png");
+    //GifImage sword = new GifImage("chip/chip/swordhit.gif");
+    private GifImage runright = new GifImage("chip/chip/run.gif");
+    private GifImage runleft = new GifImage("chip/chip/runleft.gif");
     GreenfootImage noImg = new GreenfootImage(1, 1);
     private int swordTimer = 0;
     private int shotTimer = 0;
@@ -25,6 +28,7 @@ public class Chip extends Actor {
     private int hspeed = 0;
     private int acceleration = 1;
     private int cooldown = 20;
+    boolean standstill = true;
     
     public static int speed;
     public boolean isGameOver = false;
@@ -70,15 +74,22 @@ public class Chip extends Actor {
     /* movement */
     /**************************************************************/
     protected void movement() {
+        if (!(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("right"))) {
+            standstill = true;
+            if(standstill && isLeft) {setImage(left);}
+            if(standstill && !isLeft) {setImage(right);}
+        }
         if (Greenfoot.isKeyDown("left")) {
             if (onGround()) {
-                setImage(left);
+                setImage(runleft.getCurrentImage());
+                standstill = false;
             }
             setRotation(180);
         }
         if (Greenfoot.isKeyDown("right")) {
             if (onGround()) {
-                setImage(right);
+                setImage(runright.getCurrentImage());
+                standstill = false;
             }
             setRotation(0);
         }
@@ -154,6 +165,7 @@ public class Chip extends Actor {
     
     protected void moveHorizontally() {
         if (!(Greenfoot.isKeyDown("left") && Greenfoot.isKeyDown("right"))) {
+            standstill = false;
             move(speed);
             //hspeed += acceleration;
             if (Greenfoot.isKeyDown("left")) {
@@ -204,8 +216,14 @@ public class Chip extends Actor {
         }
         else {
             swordTimer = 0;
-            if (isLeft) {setImage(left);}
-            else {setImage(right);}
+            if (isLeft) {
+                setImage(runleft.getCurrentImage());
+                standstill = false;
+            }
+            else {
+                setImage(runright.getCurrentImage());
+                standstill = false;
+            }
         }
         cooldown = 20;
 
