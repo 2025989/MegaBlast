@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class MyWorld extends World {
     
-    //private GreenfootSound music = new GreenfootSound(null);
+    private GreenfootSound music = new GreenfootSound("Zelda.mp3");
     
     /**
      * Constructor for objects of class MyWorld.
@@ -21,7 +21,7 @@ public class MyWorld extends World {
     
     public void act() {
         if (Level.waveCount == 0
-        || (MoveLeft.worldX > 10000*Level.waveCount
+        || (MoveLeft.worldX > 20000*Level.waveCount
         && (Level.waveCount == 1
         || Level.waveCount == 2
         || Level.waveCount == 3
@@ -42,10 +42,10 @@ public class MyWorld extends World {
     }
     
     public void started() {
-        //music.playLoop();
+        music.playLoop();
     }
     public void stopped() {
-        //music.pause();
+        music.pause();
     }
     
     protected void populateTheWorld() {
@@ -53,18 +53,18 @@ public class MyWorld extends World {
         addObject(new Level(), 150, 50);
         addObject(new HealthBar(), 150, getHeight()-35);
         //addObject(new TEST(), 150, 100);
-        addObject(new Boss(), 50, getHeight()-130);
+        //addObject(new Boss(), 50, getHeight()-130);
         for (int i = -3; i < 50; i++) {
             addObject(new Background(), 1158+2316*i, getHeight()/2);
             addObject(new Ground(), 639+1277*i, getHeight()-32);
         }
         
-        addObject(new Chip(), getWidth()/2, getHeight()-112);
+        addObject(new Chip(), getWidth()/2, getHeight()-130);
         
         setPaintOrder(
             NewGame.class, Level.class, HealthBar.class, BossHealthBar.class, TEST.class,
             Explosion.class, Chip.class, Monster.class, Boss.class,
-            Ground.class, Shot.class, Fireball.class,
+            Ground.class, Shot.class, Fireball.class, Shockwave.class,
             Background.class
         );
     }

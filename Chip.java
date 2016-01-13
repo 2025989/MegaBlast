@@ -8,13 +8,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Chip extends Actor {
     
-    private GreenfootImage left = new GreenfootImage("ChipLeft.png");
-    private GreenfootImage right = new GreenfootImage("ChipRight.png");
-    private GreenfootImage duckLeft = new GreenfootImage("DuckLeft.png");
-    private GreenfootImage duckRight = new GreenfootImage("DuckRight.png");
-    private GreenfootImage jumpLeft = new GreenfootImage("JumpLeft.png");
-    private GreenfootImage jumpRight = new GreenfootImage("JumpRight.png");
+    private GreenfootImage sword = new GreenfootImage("chipswordright.png");
+    private GreenfootImage swordLeft = new GreenfootImage("chipswordleft.png");
+    private GreenfootImage left = new GreenfootImage("shootleft.png");
+    private GreenfootImage right = new GreenfootImage("shootright.png");
+    private GreenfootImage duckLeft = new GreenfootImage("duckleft.png");
+    private GreenfootImage duckRight = new GreenfootImage("duckright.png");
+    private GreenfootImage jumpLeft = new GreenfootImage("jumpleft.png");
+    private GreenfootImage jumpRight = new GreenfootImage("jumpright.png");
+    GifImage teleport = new GifImage("teleport.gif");
+    GifImage runright = new GifImage("runright.gif");
+    GifImage runleft = new GifImage("runleft.gif");
     GreenfootImage noImg = new GreenfootImage(1, 1);
+    private int swordTimer = 0;
     private int shotTimer = 0;
     private int jumpTimer = 0;
     private int jumpCounter = 0;
@@ -22,6 +28,9 @@ public class Chip extends Actor {
     private int hspeed = 0;
     private int acceleration = 1;
     private int cooldown = 20;
+    boolean cd = false;
+    boolean spawned = false;
+    int spawnTimer = 0;
     
     public static int speed;
     public boolean isGameOver = false;
@@ -34,7 +43,7 @@ public class Chip extends Actor {
         speed = 5;
         bosswave = false;
         hp = 100;
-        setImage(right);
+        getImage().clear();
         noImg.clear();
         MoveLeft.worldX = 0;
     }
@@ -44,19 +53,32 @@ public class Chip extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        chipX = getX();
-        if (Greenfoot.isKeyDown("/")) {cooldown = 1;}
-        if (Greenfoot.isKeyDown("Q")) {speed = 100;}
-        if (!isGameOver) {
-            if (hp < 0) {
-                hp = 0;
-                isDead = true;
-                isGameOver = true;
+        if (spawned == false) {
+            if (!onGround()) {fall();}
+            spawnTimer++;
+            setImage(teleport.getCurrentImage());
+            if (spawnTimer > 20) {spawned = true;}
+        }
+        else {
+            chipX = getX();
+            if (Greenfoot.isKeyDown("/")) {
+                cooldown = 1;
+                this.hp = 100;
             }
-            die();
-            if (hp > 0) {movement();}
-            //checkHealth();
-            attack();
+            if (Greenfoot.isKeyDown("Q")) {speed = 100;}
+            if (!isGameOver) {
+                if (hp < 0) {
+                    hp = 0;
+                    isDead = true;
+                    isGameOver = true;
+                }
+                die();
+                if (hp > 0) {
+                    movement();
+                    shoot();
+                    slash();
+                }
+            }
         }
     }
     /* movement */
@@ -92,12 +114,13 @@ public class Chip extends Actor {
         //walk
         if (!(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("down"))) {walk();}
         
-        //move(hspeed);
-        /*if (!(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("right"))
-        && hspeed > 0) {
-
-            hspeed -= acceleration;
-        }*/
+        if(!(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("down")
+        || Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("right"))
+        && onGround()
+        && swordTimer == 0) {
+            if (isLeft) {setImage(left);}
+            else {setImage(right);}
+        }
     }
     //die
     protected void die() {
@@ -155,9 +178,11 @@ public class Chip extends Actor {
             //hspeed += acceleration;
             if (Greenfoot.isKeyDown("left")) {
                 isLeft = true;
+                if (onGround()) {setImage(runleft.getCurrentImage());}
             }
             if (Greenfoot.isKeyDown("right")) {
                 isLeft = false;
+                if (onGround()) {setImage(runright.getCurrentImage());}
             }
             if ((getX() > 700 && bosswave == false)
             || getX() > getWorld().getWidth()-getImage().getWidth()/2) {setLocation(getX()-speed, getY());}
@@ -169,27 +194,40 @@ public class Chip extends Actor {
     //************************************************************//
     
     /* collision */
-    /**************************************************************/
     protected boolean onGround() {
         return getOneIntersectingObject(Ground.class) != null;
     }
-    //public boolean atWorldEdge() {
-    //    return ( /*left*/   getX()-getImage().getWidth()/2 <= 0
-    //        ||   /*right*/  getX()+getImage().getWidth()/2 >= getWorld().getWidth()
-    //        ||   /*top*/    getY()-getImage().getHeight()/2 <= 0
-    //        ||   /*bottom*/ getY()+getImage().getHeight()/2 >= getWorld().getHeight());
-    //}
-    //************************************************************//
     
-    public void attack() {
+    public void shoot() {
         if (Greenfoot.isKeyDown("F")) {
             if (shotTimer%cooldown == 0) {
-                getWorld().addObject(new Shot(isLeft), getX(), getY());
+                if (isLeft) {getWorld().addObject(new Shot(isLeft), getX()-20, getY()-3);}
+                else {getWorld().addObject(new Shot(isLeft), getX()+20, getY()-3);}
             }
             shotTimer++;
         }
         else {shotTimer = 0;}
         cooldown = 20;
     }
+    public void slash() {
+        if (Greenfoot.isKeyDown("R")) {
+            if (swordTimer%cooldown == 0) {
+                if (isLeft) {setImage(swordLeft);}
+                else {setImage(sword);}
+                Monster monster = getOneIntersectingObject(Monster.class);
+                if (monster != null) {
+                    if (Boss.invulnerable == true) {
+                        Shot.killcount++;
+                    }
+                    getWorld().removeObject(monster);
+                }
+            }
+            swordTimer++;
+        }
+        else {
+            swordTimer = 0;
+        }
+        cooldown = 20;
 
+    }
 }
